@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace L1_Task2_
 {
@@ -33,7 +29,7 @@ namespace L1_Task2_
                 if (!successInput) Console.WriteLine("\tВведённую строку невозможно перевести в вещественное число");
             } while (!successInput);
 
-            // Вetermination of belonging of a point in a given area
+            // Determination of belonging of a point in a given area
             t2Res = (x1 >= -2) && (x1 <= 2) && (y1 >= 0) && (y1 <= (2 - Math.Abs(x1)));
 
             // Print result
