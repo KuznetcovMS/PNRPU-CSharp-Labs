@@ -1,6 +1,7 @@
 ﻿using System;
 
-namespace ConsoleApp1
+
+namespace Lab5
 
 {
     class Program
@@ -9,6 +10,11 @@ namespace ConsoleApp1
         {
             int command;
             bool shouldClose = false;
+
+            int[] oneDimArray = null;
+            int[,] twoDimArray = null;
+            int[][] raggedArray = null;
+
             while(!shouldClose)
             {
                 ShowMenu();
@@ -17,17 +23,36 @@ namespace ConsoleApp1
                 {
                     switch (command)
                     {
+                        case 1:
+                            Console.Clear();
+                            OneDimArrayWorker.StartWorkOneDimArray(ref oneDimArray);
+                            Console.Clear();
+                            break;
+                        case 2:
+                            Console.Clear();
+                            TwoDimArrayWorker.StartWorkTwoDimArray(ref twoDimArray);
+                            Console.Clear();
+                            break;
+                        case 3:
+                            Console.Clear();
+                            RaggedArrayWorker.StartWorkRaggedTwoDimArray(ref raggedArray);
+                            Console.Clear();
+                            break;
                         case 4:
                             shouldClose = true;
                             break;
                         default:
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("ERROR: Неверный код команды\n");
+                            Console.ResetColor();
                             break;
                     }
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("ERROR: Введённую строку невозможно интерпретировать как целое число\n");
+                    Console.ResetColor();
                 }
             }
         }
@@ -37,21 +62,7 @@ namespace ConsoleApp1
             Console.WriteLine("1. Работа с одномерным массивом");
             Console.WriteLine("2. Работа с двумерным массивом");
             Console.WriteLine("3. Работа с рваным массивом");
-            Console.WriteLine("4. Выход\n");
-        }
-
-        static void WorkOneDimArray()
-        {
-            Console.WriteLine("====Одномерный массив====");
-            Console.WriteLine("{");
-        }
-
-        static void ShowOneDimMenu()
-        {
-            Console.WriteLine("\t1. Создать массив");
-            Console.WriteLine("\t2. Напечатать массив");
-            Console.WriteLine("\t3. Удалить все нечётные элементы");
-            Console.WriteLine("\t4. Выйти в главное меню");
+            Console.WriteLine("4. Выход");
         }
     }
 }
