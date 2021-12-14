@@ -18,31 +18,35 @@ namespace Lab3
             double e = 0.0001;
             double x;
             double y;
-            double sn = 0;
-            double se1 = 0;
-            double se2 = 0;
+            double x4;
+            double curx;
 
             for (x = a; x <= b; x += (b - a) / k)
             {
-                
-                sn = 0;
-                n = 0;
 
-                se1 = Math.Pow(x, 4 * n + 1) / (4 * n + 1);
-                se2 = se1 + Math.Pow(x, 4 * (n + 1) + 1) / (4 * (n + 1) + 1);
-                
+                double sn = 0;
+                n = 0;
+                x4 = Math.Pow(x, 4);
+                curx = x;
+
+                double se1 = curx / (4 * n + 1);
+                double se2 = se1 + curx * x4 / (4 * (n + 1) + 1);
+
                 Console.Write($"X = {x,-10}");
                 
                 for (n = 0; n < 3; n++)
                 {
-                    sn += Math.Pow(x, 4 * n + 1) / (4 * n + 1);
+                    sn += curx / (4 * n + 1);
+                    curx *= x4;
                 }
                 Console.Write($"SN = {sn,-24}");
 
+                curx = x * x4;
                 for (n = 1; Math.Abs(se1 - se2) >= e; n++)
                 {
-                    se1 += Math.Pow(x, 4 * n + 1) / (4 * n + 1);
-                    se2 += Math.Pow(x, 4 * (n + 1) + 1) / (4 * (n + 1) + 1);
+                    se1 = se2;
+                    curx *= x4;
+                    se2 += curx / (4 * (n + 1) + 1);
                 }
                 Console.Write($"SE = {se2,-24}");
                 
