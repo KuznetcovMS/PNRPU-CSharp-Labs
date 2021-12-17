@@ -95,8 +95,8 @@ namespace LR2BoolCalc
             Stack<char> stack = new Stack<char>();
             for (int i = 0; i < curExp.Length; i++)
             {
-                if (char.IsLetterOrDigit(curExp[i])) buf.Add(curExp[i]);
-                else if(ops.ContainsKey(curExp[i]) && curExp[i] != '(')
+                if (char.IsLetterOrDigit(curExp[i])) buf.Add(curExp[i]); //Вставка переменных и констант
+                else if(ops.ContainsKey(curExp[i]) && curExp[i] != '(') //Вставка операторов
                 {
                     if (stack.Count == 0) stack.Push(curExp[i]);
                     else if (ops[stack.Peek()] < ops[curExp[i]]) stack.Push(curExp[i]);
@@ -109,6 +109,7 @@ namespace LR2BoolCalc
                         stack.Push(curExp[i]);
                     }
                 }
+                //Обработка скобок
                 else if(curExp[i] == '(') stack.Push(curExp[i]);
                 else if(curExp[i] == ')')
                 {
