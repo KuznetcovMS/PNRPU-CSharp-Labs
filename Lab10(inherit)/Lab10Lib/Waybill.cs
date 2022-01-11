@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lab10_inherit_
+namespace Lab10Lib
 {
     public class Waybill : Document, ICloneable
     {
@@ -110,6 +110,13 @@ namespace Lab10_inherit_
         public Waybill MClone()
         {
             return MemberwiseClone() as Waybill;
+        }
+
+        public override bool Equals(object obj)
+        {
+            Waybill buf = obj as Waybill;
+            if (buf == null) return false;
+            return this._posWaybill.SequenceEqual(buf._posWaybill);
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lab10_inherit_
+namespace Lab10Lib
 {
     public class Product : ICloneable
     {

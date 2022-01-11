@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lab10_inherit_
+namespace Lab10Lib
 {
     public class Receipt : Check
     {
-        static string _bankName;
+        protected string _bankName;
 
         public Receipt() : base()
         {
@@ -39,5 +39,21 @@ namespace Lab10_inherit_
             Console.WriteLine("exec method in Receipt");
         }
 
+        public override bool Equals(Document other)
+        {
+            Receipt buf = other as Receipt;
+            if (buf == null) return false;
+            return _bankName.Equals(buf._bankName) && _payer.Equals(buf._payer) && _price == buf._price;
+        }
+
+        public Check BaseCheck
+        {
+            get { return new Check(_payer, _bankName, _price); }
+        }
+
+        public override string ToString()
+        {
+            return $"Receipt {_payer}, {_bankName}, {_price}";
+        }
     }
 }

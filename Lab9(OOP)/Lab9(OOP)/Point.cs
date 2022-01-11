@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lab9_OOP_
 {
-    class Point
+    public class Point
     {
         private double x;
         private double y;

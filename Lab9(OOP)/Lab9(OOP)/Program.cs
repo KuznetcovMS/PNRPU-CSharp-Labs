@@ -96,7 +96,7 @@ namespace Lab9_OOP_
             near.Show();
 
             Console.WriteLine("\nВведите 5 элемнтов");
-            Point[] arr = new Point[5];
+            PointArray arr = new PointArray(5);
             for (int i = 0; i < arr.Length; i++)
             {
                 ReadCorrectVal(out double X, "X: ");

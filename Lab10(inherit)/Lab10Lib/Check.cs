@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lab10_inherit_
+namespace Lab10Lib
 {
     public class Check : Document
     {
@@ -22,20 +22,29 @@ namespace Lab10_inherit_
         public Check(string payer, string recipient, float price)
         {
             _payer = payer; 
-            _recipient = recipient; 
-            _price = price;
+            _recipient = recipient;
+            if (price >= 0) _price = price;
+            else _price = 0;
         }
 
         public string Payer
         {
             get { return _payer; }  
-            set { _payer = value; }
+            set 
+            { 
+                if (value == null) return;
+                _payer = value; 
+            }
         }
 
         public string Recipient
         {
             get { return _recipient; }
-            set { _recipient = value; }
+            set 
+            {
+                if (value == null) return;
+                _recipient = value; 
+            }
         }
         public float Price
         {
@@ -65,6 +74,23 @@ namespace Lab10_inherit_
         {
             return _price;
         }
+        
+        public override bool Equals(Document other)
+        {
+            if (other == null) return false;
+            Check check = other as Check;
+            if (check == null) return false;
+            return this.Payer.Equals(check.Payer) && this.Price == check.Price && this.Recipient.Equals(check.Recipient);
+        }
 
+        public override int GetHashCode()
+        {
+            return _payer.GetHashCode() * _recipient.GetHashCode() * ((int)_price + 1);
+        }
+
+        public override string ToString()
+        {
+            return $"Check {_payer}, {_recipient}, {_price}";
+        }
     }
 }

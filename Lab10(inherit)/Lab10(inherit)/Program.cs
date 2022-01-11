@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Lab10Lib;
+
 namespace Lab10_inherit_
 {
     public class Program

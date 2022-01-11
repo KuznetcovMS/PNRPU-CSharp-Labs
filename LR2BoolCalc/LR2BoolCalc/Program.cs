@@ -14,12 +14,11 @@ namespace LR2BoolCalc
         static string curExp;
         static string rpn;
 
-
         static void Main(string[] args)
         {
             vars = new List<char>(5);
             varsVal = new List<bool>(5);
-            bool shoudExit = false;;
+            bool shoudExit = false; ;
 
             ops = new Dictionary<char, int>();
             ops.Add('!', 7);
@@ -57,12 +56,12 @@ namespace LR2BoolCalc
         static string DelSpace(string s)
         {
             List<char> buf = new List<char>(10);
-            
+
             foreach (char c in s)
             {
                 if (c != ' ') buf.Add(c);
             }
-   
+
             return new string(buf.ToArray());
         }
         static void PrintTableHeader()
@@ -96,7 +95,7 @@ namespace LR2BoolCalc
             for (int i = 0; i < curExp.Length; i++)
             {
                 if (char.IsLetterOrDigit(curExp[i])) buf.Add(curExp[i]); //Вставка переменных и констант
-                else if(ops.ContainsKey(curExp[i]) && curExp[i] != '(') //Вставка операторов
+                else if (ops.ContainsKey(curExp[i]) && curExp[i] != '(') //Вставка операторов
                 {
                     if (stack.Count == 0) stack.Push(curExp[i]);
                     else if (ops[stack.Peek()] < ops[curExp[i]]) stack.Push(curExp[i]);
@@ -110,8 +109,8 @@ namespace LR2BoolCalc
                     }
                 }
                 //Обработка скобок
-                else if(curExp[i] == '(') stack.Push(curExp[i]);
-                else if(curExp[i] == ')')
+                else if (curExp[i] == '(') stack.Push(curExp[i]);
+                else if (curExp[i] == ')')
                 {
                     while (stack.Peek() != '(')
                     {
@@ -129,7 +128,7 @@ namespace LR2BoolCalc
         {
             Stack<char> stack = new Stack<char>();
             bool lo, ro;
-            foreach(char tock in rpn)
+            foreach (char tock in rpn)
             {
                 if (char.IsLetterOrDigit(tock)) stack.Push(tock);
                 else
@@ -225,7 +224,5 @@ namespace LR2BoolCalc
                 Console.Write(Convert.ToInt32(varsVal[j]) + "|");
             }
         }
-
-
     }
 }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lab10_inherit_
+namespace Lab10Lib
 {
-    public abstract class Document : IExecutable
+    public abstract class Document : IExecutable, IEquatable<Document>
     {
         public virtual void VShow()
         {
@@ -31,6 +31,20 @@ namespace Lab10_inherit_
             if (this.GetTotalSum() > document.GetTotalSum()) return 1;
             else if (this.GetTotalSum() < document.GetTotalSum()) return -1;
             return 0;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as Document);
+        }
+        public virtual bool Equals(Document other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }
