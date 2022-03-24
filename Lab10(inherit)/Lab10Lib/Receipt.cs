@@ -55,5 +55,10 @@ namespace Lab10Lib
         {
             return $"Receipt {_payer}, {_bankName}, {_price}";
         }
+
+        public override object Clone()
+        {
+            return new Receipt(_payer, _bankName, _price);
+        }
     }
 }

@@ -70,7 +70,7 @@ namespace Lab11_Collect_
 
             //Задание 3
             Console.WriteLine("\nЗадание 3");
-            TestCollections tc = new TestCollections(1000);
+            TestCollections tc = new TestCollections(100000);
             tc.RunContainsBenchmarks();
         }
     }

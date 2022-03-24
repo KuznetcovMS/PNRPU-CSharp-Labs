@@ -12,12 +12,14 @@ namespace Lab10_inherit_
     {
         static void Main(string[] args)
         {
+
             Waybill w1 = new Waybill(5);
             w1.Add(new Product("Пр1", 25), 5);
             w1.Add(new Product("Пр2", 150));
 
+
             Document[] docs = new Document[6];
-            docs[0] = w1;
+            Console.WriteLine(docs[0]);
             (docs[0] as Waybill).Add(new Product("Пр3", 1200), 2);
             (docs[0] as Waybill).Add(new Product("Пр4", 30), 8);
             (docs[0] as Waybill).Add(new Product("Пр5", 50), 4);

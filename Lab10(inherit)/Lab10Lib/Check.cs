@@ -92,5 +92,10 @@ namespace Lab10Lib
         {
             return $"Check {_payer}, {_recipient}, {_price}";
         }
+
+        public override object Clone()
+        {
+            return new Check(_payer, _recipient, _price);
+        }
     }
 }

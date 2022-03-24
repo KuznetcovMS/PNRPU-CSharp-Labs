@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lab10Lib
 {
-    public abstract class Document : IExecutable, IEquatable<Document>
+    public abstract class Document : IExecutable, IEquatable<Document>, IComparable<Document>, ICloneable
     {
         public virtual void VShow()
         {
@@ -46,5 +46,19 @@ namespace Lab10Lib
         {
             return base.GetHashCode();
         }
+
+        public override string ToString()
+        {
+            return base.ToString();
+        }
+
+        public int CompareTo(Document document)
+        {
+            if (this.GetTotalSum() > document.GetTotalSum()) return 1;
+            else if (this.GetTotalSum() < document.GetTotalSum()) return -1;
+            return 0;
+        }
+
+        public abstract object Clone();
     }
 }

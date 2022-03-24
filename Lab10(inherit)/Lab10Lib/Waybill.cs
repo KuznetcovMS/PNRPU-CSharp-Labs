@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lab10Lib
 {
-    public class Waybill : Document, ICloneable
+    public class Waybill : Document
     {
         private List<Tuple<Product, int>> _posWaybill; //1 - продукт, 2 - кол-во
 
@@ -97,7 +97,7 @@ namespace Lab10Lib
             return total;
         }
 
-        public object Clone()
+        public override object Clone()
         {
             Waybill buf = new Waybill(this._posWaybill.Count);
             foreach (var item in _posWaybill)
@@ -117,6 +117,30 @@ namespace Lab10Lib
             Waybill buf = obj as Waybill;
             if (buf == null) return false;
             return this._posWaybill.SequenceEqual(buf._posWaybill);
+        }
+
+        public override string ToString()
+        {
+            string res = "Накладная ";
+
+            if (_posWaybill.Count > 0)
+            {
+                res += "\n";
+                float total = 0;
+                for (int i = 0; i < _posWaybill.Count; i++)
+                {
+                    res += $"Позиция #{i + 1}: ";
+                    res += _posWaybill[i];
+                    res += $", Кол-во {_posWaybill[i].Item2}, Сумма: {_posWaybill[i].Item1.Price * _posWaybill[i].Item2}\n";
+                    total += _posWaybill[i].Item1.Price * _posWaybill[i].Item2;
+                }
+                res += $"Итого: {total}";
+
+            }
+
+            else { res += "пуста"; }
+
+            return res;
         }
     }
 }

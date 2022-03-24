@@ -44,5 +44,10 @@ namespace Lab10Lib
         {
             Console.Write($"Наименование товара: {_name}, цена: {_price}");
         }
+
+        public override string ToString()
+        {
+            return $"{_name}, цена: {_price}";
+        }
     }
 }
