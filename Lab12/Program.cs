@@ -10,8 +10,38 @@ namespace Lab12
 {
     internal class Program
     {
+        static void test(ref BalancedTree<int> b)
+        {
+            int prev = -100;
+            foreach(var el in b)
+            {
+                if (el < prev) 
+                    Console.WriteLine($"Error {prev} -> {el}");
+                prev = el;
+            }
+        }
         static void Main(string[] args)
         {
+            BalancedTree<int> bt = new BalancedTree<int>();
+            for (int i = 0; i < 100; i++)
+            {
+                bt.Add(i);
+                test(ref bt);
+            }
+            bt.FindChangeItem(5, 100);
+            for (int i = 20; i < 70; i++)
+            {
+                bt.Remove(i);
+                Console.Write(i + " ");
+                test(ref bt);
+                bt.Add(i * 10);
+            }
+            Console.WriteLine(bt.Contains(11));
+            foreach(var el in bt)
+            {
+                Console.WriteLine(el);
+            }
+
             Random rand = new Random();
             BalancedTree<Document> t = new BalancedTree<Document>();
 

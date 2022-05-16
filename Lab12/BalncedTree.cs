@@ -34,7 +34,7 @@ namespace Lab12
             _count = c.Count;
         }
 
-        public void Add(T item)
+        public virtual void Add(T item)
         {
             if (item == null) throw new ArgumentNullException("item");
 
@@ -59,7 +59,6 @@ namespace Lab12
                 if (item.CompareTo(root.Data) >= 0)
                 {
                     insert(ref root.Right, item);
-                    root.BalanceFactor++;
                     if (root.BalanceFactor > 1)
                     {
                         if (root.Right.BalanceFactor < 0) TurnRight(ref root.Right);
@@ -69,16 +68,32 @@ namespace Lab12
                 else
                 {
                     insert(ref root.Left, item);
-                    root.BalanceFactor--;
                     if (root.BalanceFactor < -1)
                     {
                         if (root.BalanceFactor > 0) TurnLeft(ref root.Left);
                         TurnRight(ref root);
                     }
                 }
+                SetBalanceFactor(root);
             }
         }
 
+        private void Rebalance(ref Node<T> root)
+        {
+            if (root.BalanceFactor > 1)
+            {
+                if (root.Right.BalanceFactor < 0) TurnRight(ref root.Right);
+                TurnLeft(ref root);
+            }
+
+            if (root.BalanceFactor < -1)
+            {
+                if (root.BalanceFactor > 0) TurnLeft(ref root.Left);
+                TurnRight(ref root);
+            }
+            SetBalanceFactor(root);
+
+        }
         private void TurnLeft(ref Node<T> locRoot)
         {
             Node<T> rightSubtree, rightSubtreeLeftSubtree;
@@ -113,7 +128,9 @@ namespace Lab12
             sbyte hLeft = GetTreeHeight(locRoot.Left);
             sbyte hRight = GetTreeHeight(locRoot.Right);
 
+            locRoot.BalanceFactor = (sbyte)(hRight - hLeft);
             if (hLeft > hRight) return (sbyte)(hLeft + 1);
+
             else return (sbyte)(hRight + 1);
         }
 
@@ -195,6 +212,16 @@ namespace Lab12
             return FindItemNode(item).Data;
         }
 
+        public virtual bool FindChangeItem(T oldItem, T newItem)
+        {
+            if (Remove(oldItem))
+            {
+                Add(newItem);
+                return true;
+            }
+            return false;
+        }
+
 
         public void CopyTo(T[] array, int arrayIndex)
         {
@@ -209,45 +236,84 @@ namespace Lab12
             return new TreeEnumerator<T>(this);
         }
 
-        public bool Remove(T item)
+        public virtual bool Remove(T item)
         {
-            if (_root == null) return false;
-       
-            bool isRemoved = false;
-            bool foundElem = false;
+            if (item == null) return false;
 
-            Node<T> prevPos = _root;
-            Node<T> curPos = _root;
-
-            while (curPos != null && !foundElem)
+            if (RecRemove(ref _root, item))
             {
-                switch (item.CompareTo(curPos.Data))
+                _count--;
+                return true;
+            }
+            return false;
+        }
+
+        private bool RecRemove(ref Node<T> root, T item)
+        {
+            if (root == null) return false;
+            if (root.Data.Equals(item))
+            {
+                if (root.Left == null && root.Right == null)
+                {
+                    root = null;
+                    return true;
+                }
+                else if(root.Left != null && root.Right == null)
+                {
+                    root = root.Left;
+                }
+                else if (root.Right != null && root.Left == null)
+                {
+                    root = root.Right;
+                }
+                else if (root.Left != null && root.Right != null)
+                {
+                    Node<T> pNode = root;
+                    Node<T> cNode = root.Right;
+                    while(cNode.Left != null)
+                    {
+                        pNode = cNode;
+                        cNode = cNode.Left;
+                    }
+
+                    if (cNode.Right == null)
+                    {
+                        cNode.Left = root.Left;
+                        if (root.Right != cNode) cNode.Right = root.Right;
+                        pNode.Left = null;
+                        root = cNode;
+                    }
+                    else
+                    {
+                        if (root.Right != cNode)
+                        {
+                            pNode.Left = cNode.Right;
+                            cNode.Right = root.Right;
+                        }
+                        cNode.Left = root.Left;
+                        root = cNode;
+                    }
+                }
+                SetBalanceFactor(root);
+                Rebalance(ref root);
+                return true;
+            }
+
+            else
+            {
+                switch (item.CompareTo(root.Data))
                 {
                     case -1:
-                        prevPos = curPos;
-                        curPos = curPos.Left;
-                        break;
+                        return RecRemove(ref root.Left, item);
 
                     case 0:
-                        if (curPos.Data.Equals(item)) foundElem = true;
-                        else
-                        {
-                            prevPos = curPos;
-                            curPos = curPos.Right;
-                        }
-                        break;
+                        return RecRemove(ref root.Right, item);
 
                     case 1:
-                        prevPos = curPos;
-                        curPos = curPos.Right;
-                        break;
+                        return RecRemove(ref root.Right, item);
                 }
             }
-            //if (foundElem)
-            //{
-                
-            //}
-            return isRemoved;
+            return false;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
