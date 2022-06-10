@@ -43,11 +43,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MyExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lab10%28inherit%29\Lab10Lib\Lab10Lib.csproj">
+      <Project>{fdb2dc90-5009-405f-9791-7ae5a5c5b179}</Project>
+      <Name>Lab10Lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lab12\Lab12.csproj">
+      <Project>{4a089e1f-a024-4326-8fd6-8b885c5c3199}</Project>
+      <Name>Lab12</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

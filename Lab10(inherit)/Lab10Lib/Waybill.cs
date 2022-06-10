@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lab10Lib
 {
+    [Serializable]
     public class Waybill : Document
     {
         private List<Tuple<Product, int>> _posWaybill; //1 - продукт, 2 - кол-во

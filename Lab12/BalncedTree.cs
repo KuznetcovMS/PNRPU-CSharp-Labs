@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lab12
 {
+    [Serializable]
     public class BalancedTree<T> : ICollection<T>, ICloneable where T : IComparable<T>
     {
         protected Node<T> _root;
@@ -207,11 +208,6 @@ namespace Lab12
             return curPos;
         }
 
-        public T FindGetItem(T item)
-        {
-            return FindItemNode(item).Data;
-        }
-
         public virtual bool FindChangeItem(T oldItem, T newItem)
         {
             if (Remove(oldItem))
@@ -336,6 +332,7 @@ namespace Lab12
             private Node<T> _root;
             private Node<T> _begin;
             private Node<T> _cur;
+            private Node<T> _end;
             private Stack<Node<T>> nodeStack;
             private Stack<Node<T>> beginStateStack;
             public T Current
@@ -343,11 +340,21 @@ namespace Lab12
                 get { return _cur.Data; }
             }
 
+            public T Max
+            {
+                get
+                {
+                    if (_end.Right != null) SetHighiestNodeInSubtree(ref _end);
+                    return _end.Data;
+                }
+            }
+
             public TreeEnumerator(BalancedTree<T> col)
             {
                 _root = col._root;
                 _begin = col._root;
                 _cur = col._root;
+                _end = col._root;
                 nodeStack = new Stack<Node<T>>(50);
 
                 if (_root != null)
@@ -355,6 +362,7 @@ namespace Lab12
                     nodeStack.Push(_root);
                     SetLowestNodeInSubtree(ref _begin);
                     _cur = _begin;
+                    SetHighiestNodeInSubtree(ref _end);
                 }
       
                 beginStateStack = new Stack<Node<T>>(nodeStack);          
@@ -390,6 +398,14 @@ namespace Lab12
                 {
                     node = node.Left;
                     nodeStack.Push(node);
+                }
+            }
+
+            private void SetHighiestNodeInSubtree(ref Node<T> node)
+            {
+                while (node.Right != null)
+                {
+                    node = node.Right;
                 }
             }
 

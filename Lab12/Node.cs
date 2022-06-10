@@ -7,6 +7,7 @@ using Lab10Lib;
 
 namespace Lab12
 {
+    [Serializable]
     public class Node<T> where T : IComparable<T>
     {
         public T Data;
@@ -28,11 +29,6 @@ namespace Lab12
             Left = null;
             Right = null;
             BalanceFactor = 0;
-        }
-
-        public override string ToString()
-        {
-            return Data + " ";
         }
     }
 }

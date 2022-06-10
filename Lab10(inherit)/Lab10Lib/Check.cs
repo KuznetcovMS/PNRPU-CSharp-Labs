@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lab10Lib
 {
+    [Serializable]
     public class Check : Document
     {
         protected string _payer;

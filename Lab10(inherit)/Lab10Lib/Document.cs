@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lab10Lib
 {
+    [Serializable]
     public abstract class Document : IExecutable, IEquatable<Document>, IComparable<Document>, ICloneable
     {
         public virtual void VShow()

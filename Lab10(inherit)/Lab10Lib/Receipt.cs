@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Lab10Lib
 {
+    [Serializable]
     public class Receipt : Check
     {
+
         protected string _bankName;
 
         public Receipt() : base()

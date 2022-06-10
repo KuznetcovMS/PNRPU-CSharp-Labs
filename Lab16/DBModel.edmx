@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DbDocModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Granter">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GranterName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GranterReceipt">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Receipt_id" Type="int" Nullable="false" />
+          <Property Name="Granter_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Receipt">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PayerName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="BankName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Price" Type="float" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Granter_id">
+          <End Role="Granter" Type="Self.Granter" Multiplicity="1" />
+          <End Role="GranterReceipt" Type="Self.GranterReceipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Granter">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GranterReceipt">
+              <PropertyRef Name="Granter_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Receipt_id">
+          <End Role="Receipt" Type="Self.Receipt" Multiplicity="1" />
+          <End Role="GranterReceipt" Type="Self.GranterReceipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Receipt">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GranterReceipt">
+              <PropertyRef Name="Receipt_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DbDocModelStoreContainer">
+          <EntitySet Name="Granter" EntityType="Self.Granter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GranterReceipt" EntityType="Self.GranterReceipt" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Receipt" EntityType="Self.Receipt" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Granter_id" Association="Self.FK_Granter_id">
+            <End Role="Granter" EntitySet="Granter" />
+            <End Role="GranterReceipt" EntitySet="GranterReceipt" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Receipt_id" Association="Self.FK_Receipt_id">
+            <End Role="Receipt" EntitySet="Receipt" />
+            <End Role="GranterReceipt" EntitySet="GranterReceipt" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DbDocModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TGranter">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GranterName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="GranterReceipt" Relationship="Self.FK_Granter_id" FromRole="Granter" ToRole="GranterReceipt" />
+        </EntityType>
+        <EntityType Name="TGranterReceipt">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Receipt_id" Type="Int32" Nullable="false" />
+          <Property Name="Granter_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TGranter" Relationship="Self.FK_Granter_id" FromRole="GranterReceipt" ToRole="Granter" />
+          <NavigationProperty Name="TReceipt" Relationship="Self.FK_Receipt_id" FromRole="GranterReceipt" ToRole="Receipt" />
+        </EntityType>
+        <EntityType Name="TReceipt">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PayerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BankName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Price" Type="Double" Nullable="false" />
+          <NavigationProperty Name="GranterReceipt" Relationship="Self.FK_Receipt_id" FromRole="Receipt" ToRole="GranterReceipt" />
+        </EntityType>
+        <Association Name="FK_Granter_id">
+          <End Role="Granter" Type="DbDocModel.TGranter" Multiplicity="1" />
+          <End Role="GranterReceipt" Type="DbDocModel.TGranterReceipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Granter">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GranterReceipt">
+              <PropertyRef Name="Granter_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Receipt_id">
+          <End Role="Receipt" Type="DbDocModel.TReceipt" Multiplicity="1" />
+          <End Role="GranterReceipt" Type="DbDocModel.TGranterReceipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Receipt">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GranterReceipt">
+              <PropertyRef Name="Receipt_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DbDocEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Granter" EntityType="DbDocModel.TGranter" />
+          <EntitySet Name="GranterReceipt" EntityType="DbDocModel.TGranterReceipt" />
+          <EntitySet Name="Receipt" EntityType="DbDocModel.TReceipt" />
+          <AssociationSet Name="FK_Granter_id" Association="Self.FK_Granter_id">
+            <End Role="Granter" EntitySet="Granter" />
+            <End Role="GranterReceipt" EntitySet="GranterReceipt" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Receipt_id" Association="Self.FK_Receipt_id">
+            <End Role="Receipt" EntitySet="Receipt" />
+            <End Role="GranterReceipt" EntitySet="GranterReceipt" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DbDocModelStoreContainer" CdmEntityContainer="DbDocEntities">
+          <EntitySetMapping Name="Granter">
+            <EntityTypeMapping TypeName="DbDocModel.TGranter">
+              <MappingFragment StoreEntitySet="Granter">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="GranterName" ColumnName="GranterName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GranterReceipt">
+            <EntityTypeMapping TypeName="DbDocModel.TGranterReceipt">
+              <MappingFragment StoreEntitySet="GranterReceipt">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Receipt_id" ColumnName="Receipt_id" />
+                <ScalarProperty Name="Granter_id" ColumnName="Granter_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Receipt">
+            <EntityTypeMapping TypeName="DbDocModel.TReceipt">
+              <MappingFragment StoreEntitySet="Receipt">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PayerName" ColumnName="PayerName" />
+                <ScalarProperty Name="BankName" ColumnName="BankName" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
